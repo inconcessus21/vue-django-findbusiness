@@ -3,7 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import CategoriesList from '../views/CategoriesList.vue'
 import BusinessInCategory from '../views/BusinessInCategory.vue'
 import BusinessDetails from '../views/BusinessDetails.vue'
-import LokalizacjeView from '../views/LokalizacjeView.vue'
+import LocalizationView from '../views/LocalizationView.vue'
 import AddBusiness from '../views/AddBusiness.vue'
 import LoginView from '../views/LoginView.vue'
 
@@ -20,7 +20,7 @@ const routes = [
   },
   {
     path: '/kategoria/:propCategory',
-    name: 'kategoria',
+    name: 'BusinessInCategory',
     component: BusinessInCategory,
     props: true,
   },
@@ -32,8 +32,8 @@ const routes = [
   },
   {
     path: '/lokalizacje',
-    name: 'lokalizacjeview',
-    component: LokalizacjeView,
+    name: 'LocalizationView',
+    component: LocalizationView,
   },
   {
     path: '/dodaj',
