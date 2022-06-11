@@ -1,11 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import store from '../store'
+
 import HomeView from '../views/HomeView.vue'
-import CategoriesList from '../views/CategoriesList.vue'
-import BusinessInCategory from '../views/BusinessInCategory.vue'
-import BusinessDetails from '../views/BusinessDetails.vue'
-import LocalizationView from '../views/LocalizationView.vue'
-import AddBusiness from '../views/AddBusiness.vue'
-import LoginView from '../views/LoginView.vue'
+import Signup from '../views/SignupView.vue'
+import Login from '../views/LoginView.vue'
+import Dash from '../views/DashView.vue'
+import Myacc from '../views/MyAccView.vue'
+import Profile from '../views/ProfileView.vue'
+import Projects from '../views/ProjectsView.vue'
+import ProjectDetail from '../views/DetailProjectView.vue'
+import AddProject from '../views/AddProject.vue'
+import Tags from '../views/TagsView.vue'
+import Tag from '../views/TagView.vue'
 
 const routes = [
   {
@@ -14,46 +20,103 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/kategorie',
-    name: 'kategorie',
-    component: CategoriesList
+    path: '/signup',
+    name: 'signup',
+    component: Signup
   },
   {
-    path: '/kategoria/:propCategory',
-    name: 'BusinessInCategory',
-    component: BusinessInCategory,
+    path: '/login',
+    name: 'login',
+    component: Login
+  },
+  {
+    path: '/dash',
+    name: 'dash',
+    component: Dash,
+    meta: {
+      requiredLogin: true
+    }
+  },
+  {
+    path: '/mojekonto',
+    name: 'myacc',
+    component: Myacc,
+    meta: {
+      requiredLogin: true
+    }
+  },
+  {
+    path: '/profile/:username',
+    name: 'profile',
+    component: Profile,
     props: true,
-  },
-  {
-    path: '/firma/:uuid',
-    name: 'BusinessDetails',
-    component: BusinessDetails,
-    props: true,
-  },
-  {
-    path: '/lokalizacje',
-    name: 'LocalizationView',
-    component: LocalizationView,
-  },
-  {
-    path: '/dodaj',
-    name: 'AddBusiness',
-    component: AddBusiness,
     meta: {
       requiredLogin: true
       
     }
   },
+
   {
-    path: '/login',
-    name: 'login',
-    component: LoginView,
+    path: '/grupymodlitewne',
+    name: 'projects',
+    component: Projects,
+    meta: {
+      requiredLogin: true
+    }
   },
+  {
+    path: '/grupa/:uuid',
+    name: 'project',
+    component: ProjectDetail,
+    props: true,
+    meta: {
+      requiredLogin: true,
+      
+    }
+  },
+  {
+    path: '/grupymodlitewne/dodajgrupe',
+    name: 'dodajgrupe',
+    component: AddProject,
+    meta: {
+      requiredLogin: true,
+      
+    }
+  },
+  {
+    path: '/tags',
+    name: 'tags',
+    component: Tags,
+    props: true,
+    meta: {
+      requiredLogin: true,
+      
+    }
+  },
+  {
+    path: '/tag/:tag',
+    name: 'tag',
+    component: Tag,
+    props: true,
+    meta: {
+      requiredLogin: true,
+      
+    }
+  },
+  
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiredLogin) && !store.state.isAuthenticated) {
+    next('/login')
+  } else {
+    next()
+  }
 })
 
 export default router
